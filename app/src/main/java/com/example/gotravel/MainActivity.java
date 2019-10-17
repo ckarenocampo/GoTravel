@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
     //variables a utilizar
     RequestQueue requestQueue;
     JsonObjectRequest jsonObjectRequest;
-    ProgressDialog progreso;
+    ProgressDialog progreso; 
     ListView lstTour;
     public static ArrayList<Tours> lstTours = new ArrayList<>();
 
