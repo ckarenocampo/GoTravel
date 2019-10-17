@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -16,9 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.gotravel.Clases.Tours;
 import com.example.gotravel.Config.Config;
 import com.example.gotravel.R;
@@ -30,6 +29,12 @@ import com.paypal.android.sdk.payments.PaymentActivity;
 import com.paypal.android.sdk.payments.PaymentConfirmation;
 import com.squareup.picasso.Picasso;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,36 +43,35 @@ import java.math.BigDecimal;
 
 import javax.xml.transform.ErrorListener;
 
-import okhttp3.Response;
 
-public class info_tour extends AppCompatActivity implements com.android.volley.Response.Listener<JSONObject>{
+public class info_tour extends AppCompatActivity implements Response.Listener<JSONObject>, Response.ErrorListener {
     //Variables
     RequestQueue requestQueue;
     JsonObjectRequest jsonObjectRequest;
-    ProgressDialog progeso;
-    Button btnPagar;
-    //URLS de consulta a la bd en webservice
-
-    private final String URL_CONSULTA_ITEM="https://gotravel.webcindario.com/modelos/TourConsultarInfo.php?";
     private TextView txtNombretour,txtNombreAgencia,txtDetalle,txtLugar,txtFecha,txtHora,txtPrecio;
     private ImageView imgInfo, imgPerfil;
+    ProgressDialog progeso;
+    Button btnPagar;
     Tours objT;
-    Context a = this.a;
+    Context a ;
+    String amount= "10";
 
-    // variables de pago
+    //URLS de consulta a la bd en webservice
+    private final String URL_CONSULTA_ITEM="https://gotravel.webcindario.com/modelos/TourConsultarInfo.php?";
+
+    // Variables de pago
     private static final  int PAYPAL_REQUEST_CODE= 7171;
     private static PayPalConfiguration config = new PayPalConfiguration()
             .environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)// sandox para prueba
             .clientId(Config.PAYPAL_CLIENT_ID);
-    Button btnPay;
-    TextView edtAmount;
-    String amount= "";
+
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         stopService(new Intent(this, PayPalService.class));
         super.onDestroy();
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,7 +116,7 @@ public class info_tour extends AppCompatActivity implements com.android.volley.R
         progeso.show();
         String url=URL_CONSULTA_ITEM+"idTour="+objT.getIdTour();
         url.replace(" ","%20");
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null,this, (com.android.volley.Response.ErrorListener) this);
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null,this,  this);
         requestQueue.add(jsonObjectRequest);
     }
 
@@ -166,26 +170,29 @@ public class info_tour extends AppCompatActivity implements com.android.volley.R
             e.printStackTrace();
         }
     }
+
     private void processPayment() {
         amount = txtPrecio.getText().toString();
-        PayPalPayment payPalPayment = new PayPalPayment(new BigDecimal(String.valueOf(amount)),
-                "$","Abono realizado",PayPalPayment.PAYMENT_INTENT_SALE);
+        PayPalPayment payment = new PayPalPayment(new BigDecimal(amount),
+                "$USD","Abono realizado",PayPalPayment.PAYMENT_INTENT_SALE);
         Intent intent = new Intent(this, PaymentActivity.class);
         intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION,config);
-        intent.putExtra(PaymentActivity.EXTRA_PAYMENT,payPalPayment);
-        startActivityForResult(intent,PAYPAL_REQUEST_CODE);
+        intent.putExtra(PaymentActivity.EXTRA_PAYMENT,payment);
+        startActivityForResult(intent,0);
     }
 
+
+
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode,  Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PAYPAL_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
+      //  if (requestCode == PAYPAL_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
                 PaymentConfirmation confirmation = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
                 if (confirmation != null) {
                     try {
                         String paymentDetails = confirmation.toJSONObject().toString(4);
-                        startActivity(new Intent(this, PayPalPaymentDetails. class)
+                        startActivity(new Intent(this, PagosActivity. class)
                                 .putExtra("PaymentDetails", paymentDetails)
                                 .putExtra("PaymentAmount", amount)
                         );
@@ -196,9 +203,15 @@ public class info_tour extends AppCompatActivity implements com.android.volley.R
             } else if (resultCode == Activity.RESULT_CANCELED) {
                 Toast.makeText(this, "Cancelado", Toast.LENGTH_SHORT).show();
             }
-        } else if (resultCode == PaymentActivity.RESULT_EXTRAS_INVALID) {
+            else if (resultCode == PaymentActivity.RESULT_EXTRAS_INVALID) {
             Toast.makeText(this, "Invalido", Toast.LENGTH_SHORT).show();
         }
     }
 
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        progeso.dismiss();
+        Log.e("Algo fallo", error.getMessage());
+        finish();
+    }
 }

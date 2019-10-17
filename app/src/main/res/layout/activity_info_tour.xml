@@ -103,11 +103,9 @@
 
                         <TextView
                             android:id="@+id/txtNombreAgencia"
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="20dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="10dp"
+                            android:layout_margin="10dp"
                             android:layout_weight="1"
                             android:text="Agencia de viajes"
                             android:textColor="@color/colorPurple"
@@ -123,11 +121,9 @@
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:layout_width="0dp"
+                            android:layout_width="20dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="10dp"
+                            android:layout_margin="10dp"
                             android:layout_weight="1"
                             android:text="Detalle"
                             android:textColor="@color/colorPurple"
@@ -143,6 +139,7 @@
 
                             android:layout_marginBottom="10dp"
                             android:layout_weight="2"
+                            android:text="Este es un texto de ejemplo de la cantidad de texto que puede mostrar el detalle del tour "
                             android:textColor="#8D8D8D"
                             android:textSize="14sp" />
 
@@ -154,11 +151,9 @@
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:layout_width="0dp"
+                            android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="10dp"
-                            android:layout_marginLeft="10dp"
+                            android:layout_margin="10dp"
                             android:layout_weight="1"
                             android:text="Lugar"
                             android:textColor="@color/colorPurple"
@@ -173,6 +168,7 @@
                             android:layout_marginRight="10dp"
                             android:layout_marginBottom="10dp"
                             android:layout_weight="2"
+                            android:text="Sonsonate"
                             android:textColor="#8D8D8D"
                             android:textSize="14sp" />
 
@@ -183,11 +179,9 @@
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:layout_width="0dp"
+                            android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="10dp"
+                            android:layout_margin="10dp"
                             android:layout_weight="1"
                             android:text="Fecha"
                             android:textColor="@color/colorPurple"
@@ -202,6 +196,7 @@
                             android:layout_marginRight="10dp"
                             android:layout_marginBottom="10dp"
                             android:layout_weight="2"
+                            android:text="10/10/2019"
                             android:textColor="#8D8D8D"
                             android:textSize="14sp" />
 
@@ -212,11 +207,9 @@
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:layout_width="0dp"
+                            android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="10dp"
+                            android:layout_margin="10dp"
                             android:layout_weight="1"
                             android:text="Hora"
                             android:textColor="@color/colorPurple"
@@ -231,6 +224,7 @@
                             android:layout_marginRight="10dp"
                             android:layout_marginBottom="10dp"
                             android:layout_weight="2"
+                            android:text="4:00 am"
                             android:textColor="#8D8D8D"
                             android:textSize="14sp" />
                     </LinearLayout>
@@ -239,11 +233,9 @@
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:layout_width="0dp"
+                            android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="10dp"
-                            android:layout_marginLeft="10dp"
+                            android:layout_margin="10dp"
                             android:layout_weight="1"
                             android:text="Precio"
                             android:textColor="@color/colorPurple"
@@ -258,6 +250,7 @@
                             android:layout_marginRight="10dp"
                             android:layout_marginBottom="10dp"
                             android:layout_weight="2"
+                            android:text="35"
                             android:textColor="#8D8D8D"
                             android:textSize="14sp" />
                     </LinearLayout>
@@ -266,11 +259,9 @@
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:layout_width="0dp"
+                            android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="10dp"
+                            android:layout_margin="10dp"
                             android:layout_weight="1"
                             android:text="Cupos"
                             android:textColor="@color/colorPurple"
@@ -285,6 +276,7 @@
                             android:layout_marginRight="10dp"
                             android:layout_marginBottom="10dp"
                             android:layout_weight="2"
+                            android:text="20"
                             android:textColor="#8D8D8D"
                             android:textSize="14sp" />
                     </LinearLayout>
