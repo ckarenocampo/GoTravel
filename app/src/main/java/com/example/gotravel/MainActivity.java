@@ -52,13 +52,6 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
     ListView lstTour;
     public static ArrayList<Tours> lstTours = new ArrayList<>();
 
-   /* @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = (View) View.inflate(R.layout.activity_main, container, false);
-        lstTour = v.findViewById(R.id.lstTour);
-        return v;
-    }*/
 
 
     @Override
@@ -68,13 +61,18 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
         // Window v = getWindow();
         // v.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         lstTour = findViewById(R.id.lstTour);
+
     }
 
     @Override
     public void onStart() {
         super.onStart();
-
-            progreso = new ProgressDialog(this);
+        progreso = new ProgressDialog(this);
+        requestQueue = Volley.newRequestQueue(this);
+        LlamarWebServices();
+        ToursAdapter adapter = new ToursAdapter(this, lstTours, this);
+        lstTour.setAdapter(adapter);
+   /*         progreso = new ProgressDialog(this);
             requestQueue = Volley.newRequestQueue(this);
 //            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             if (lstTours.size() < 1) {
@@ -83,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
                 ToursAdapter adapter = new ToursAdapter(this, lstTours, this);
                 lstTour.setAdapter(adapter);
             }
-
+*/
     }
 
     private void LlamarWebServices() {
@@ -103,15 +101,18 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
 
     @Override
     public void onResponse(JSONObject response) {
+
+
+
         progreso.dismiss();
         JSONArray json=response.optJSONArray("Tours");
-        JSONObject jsonObject=null;
+        JSONObject jsonObject;
         Tours objT;
         try{
             for(int i=0; i<json.length();i++){
                 jsonObject=json.getJSONObject(i);
                 objT =new Tours();
-                objT.setIdTour(jsonObject.getInt("id"));
+                objT.setIdTour(jsonObject.getInt("idTour"));
                 objT.setNombretour(jsonObject.getString("Nombre"));
                 objT.setAgencia(jsonObject.getString("idAgencia"));
                 objT.setDetalle(jsonObject.getString("Detalle"));
