@@ -22,7 +22,9 @@ import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalPayment;
 import com.paypal.android.sdk.payments.PayPalService;
 import com.paypal.android.sdk.payments.PaymentActivity;
+import com.paypal.android.sdk.payments.PaymentConfirmActivity;
 import com.paypal.android.sdk.payments.PaymentConfirmation;
+import com.paypal.android.sdk.payments.PaymentMethodActivity;
 import com.squareup.picasso.Picasso;
 
 import com.android.volley.RequestQueue;
@@ -92,7 +94,10 @@ public class info_tour extends AppCompatActivity implements Response.Listener<JS
             objT= (Tours) getIntent().getSerializableExtra("objeto");
             int nu=objT.getIdTour();
             objT.setIdTour(nu);
+           // Toast.makeText(this, "ID TOUR"+nu, Toast.LENGTH_SHORT).show();
+
             ConsultarItemtour();
+            AsignacionValores(objT.getNombre(),objT.getDetalle(),objT.getLugarSalida(),objT.getFecha(),objT.getHora(),objT.getPrecio(),objT.getAgencia(),objT.getImgInfo());
         }
 
         btnPagar.setOnClickListener(new View.OnClickListener() {
@@ -112,46 +117,29 @@ public class info_tour extends AppCompatActivity implements Response.Listener<JS
         jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null,this,  this);
         requestQueue.add(jsonObjectRequest);
     }
-/*
-    private void AsignacionValores(String nom, String nomAg, String deta, String Lug, String Fech,String Hora,String Precio, String imgI, String imgP){
+
+    private void AsignacionValores(String nom, String deta, String Lug, String Fech,String Hora,String Precio, String nomAg, String imgI){
         this.txtNombre.setText(nom);
-        this.txtAgencia.setText(nomAg);
         this.txtDetalle.setText(deta);
         this.txtLugar.setText(Lug);
         this.txtFecha.setText(Fech);
         this.txtHora.setText(Hora);
         this.txtPrecio.setText(Precio);
-
+        this.txtAgencia.setText(nomAg);
         Picasso.with(this).load(imgI).into(imgInfo);
-        Picasso.with(this).load(imgP).into(imgPerfil);
-
-        if(getSupportActionBar()!=null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle(nomAg);
-        }
     }
-*/
+
     @Override
     public void onResponse(JSONObject response) {
         progeso.dismiss();
         JSONArray json=response.optJSONArray("TourConsultaInfo");
         JSONObject jsonObject=null;
+
         try{
             for(int i=0; i<json.length();i++){
                 jsonObject=json.getJSONObject(i);
             }
             if(jsonObject.getString("respuesta").equals("Ok")){
-             /*   AsignacionValores(jsonObject.getString("Nombre"),
-                        jsonObject.getString("Detalle"),
-                        jsonObject.getString("LugarSalida"),
-                        jsonObject.getString("Fecha"),
-                        jsonObject.getString("Hora"),
-                        jsonObject.getString("Precio"),
-                        jsonObject.getString("Agencia"),
-                        jsonObject.getString("imgInfo"),
-                        jsonObject.getString("imgPerfil") );*/
-//                objT =new Tours();
-
                 objT.setNombre(jsonObject.getString("Nombre"));
                 objT.setDetalle(jsonObject.getString("Detalle"));
                 objT.setLugarSalida(jsonObject.getString("LugarSalida"));
@@ -161,7 +149,6 @@ public class info_tour extends AppCompatActivity implements Response.Listener<JS
                 objT.setAgencia(jsonObject.getString("Agencia"));
                 objT.setImgInfo(jsonObject.getString("imgInfo"));
                 objT.setImgPerfil(jsonObject.getString("imgPerfil"));
-
 
             }else{
                 Toast.makeText(getApplicationContext(), "Intente nuevamente", Toast.LENGTH_SHORT).show();
@@ -177,23 +164,23 @@ public class info_tour extends AppCompatActivity implements Response.Listener<JS
         PayPalPayment payment = new PayPalPayment(new BigDecimal(amount),
                 "$USD","Abono realizado",PayPalPayment.PAYMENT_INTENT_SALE);
         Intent intent = new Intent(this, PaymentActivity.class);
-        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION,config);
-        intent.putExtra(PaymentActivity.EXTRA_PAYMENT,payment);
-        startActivityForResult(intent,0);
+      //  intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION,config);
+        //intent.putExtra(PaymentActivity.EXTRA_PAYMENT,payment);
+        //startActivityForResult(intent,PAYPAL_REQUEST_CODE);
+        startActivity(intent);
     }
-
 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode,  Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-      //  if (requestCode == PAYPAL_REQUEST_CODE) {
+        if (requestCode == PAYPAL_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 PaymentConfirmation confirmation = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
                 if (confirmation != null) {
                     try {
                         String paymentDetails = confirmation.toJSONObject().toString(4);
-                        startActivity(new Intent(this, PagosActivity. class)
+                        startActivity(new Intent(this, PagosActivity.class)
                                 .putExtra("PaymentDetails", paymentDetails)
                                 .putExtra("PaymentAmount", amount)
                         );
@@ -203,9 +190,10 @@ public class info_tour extends AppCompatActivity implements Response.Listener<JS
                 }
             } else if (resultCode == Activity.RESULT_CANCELED) {
                 Toast.makeText(this, "Cancelado", Toast.LENGTH_SHORT).show();
+            } else if (resultCode == PaymentActivity.RESULT_EXTRAS_INVALID) {
+                Toast.makeText(this, "Invalido", Toast.LENGTH_SHORT).show();
             }
-            else if (resultCode == PaymentActivity.RESULT_EXTRAS_INVALID) {
-            Toast.makeText(this, "Invalido", Toast.LENGTH_SHORT).show();
+
         }
     }
 

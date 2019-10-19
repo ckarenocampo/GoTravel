@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
     JsonObjectRequest jsonObjectRequest;
     ProgressDialog progreso;
     ListView lstTour;
-    public  ArrayList<Tours> lstTours = new ArrayList<>();
+    public static ArrayList<Tours> lstTours = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
         progreso.dismiss();
         JSONArray json=response.optJSONArray("Tours");
         JSONObject jsonObject=null;
+        lstTours.clear();
         Tours objT;
         try{
             for(int i=0; i<json.length();i++){
