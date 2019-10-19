@@ -32,6 +32,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.gotravel.Adaptador.ToursAdapter;
 import com.example.gotravel.Clases.Tours;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,9 +51,7 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
     JsonObjectRequest jsonObjectRequest;
     ProgressDialog progreso;
     ListView lstTour;
-    public static ArrayList<Tours> lstTours = new ArrayList<>();
-
-
+    public  ArrayList<Tours> lstTours = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,21 +66,19 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
     @Override
     public void onStart() {
         super.onStart();
-        progreso = new ProgressDialog(this);
-        requestQueue = Volley.newRequestQueue(this);
-        LlamarWebServices();
-        ToursAdapter adapter = new ToursAdapter(this, lstTours, this);
-        lstTour.setAdapter(adapter);
-   /*         progreso = new ProgressDialog(this);
-            requestQueue = Volley.newRequestQueue(this);
+            if(MainActivity.this != null) {
+                progreso = new ProgressDialog(this);
+                requestQueue = Volley.newRequestQueue(this);
 //            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            if (lstTours.size() < 1) {
                 LlamarWebServices();
-            } else {
-                ToursAdapter adapter = new ToursAdapter(this, lstTours, this);
-                lstTour.setAdapter(adapter);
+          /*      if (lstTours.size() < 1) {
+                    LlamarWebServices();
+                } else {
+                    ToursAdapter adapter = new ToursAdapter(this, lstTours, this);
+                    lstTour.setAdapter(adapter);
+                }
+          */
             }
-*/
     }
 
     private void LlamarWebServices() {
@@ -101,30 +98,27 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
 
     @Override
     public void onResponse(JSONObject response) {
-
-
-
         progreso.dismiss();
         JSONArray json=response.optJSONArray("Tours");
-        JSONObject jsonObject;
+        JSONObject jsonObject=null;
         Tours objT;
         try{
             for(int i=0; i<json.length();i++){
                 jsonObject=json.getJSONObject(i);
-                objT =new Tours();
+                objT = new Tours();
                 objT.setIdTour(jsonObject.getInt("idTour"));
-                objT.setNombretour(jsonObject.getString("Nombre"));
-                objT.setAgencia(jsonObject.getString("idAgencia"));
+                objT.setNombre(jsonObject.getString("Nombre"));
                 objT.setDetalle(jsonObject.getString("Detalle"));
                 objT.setLugarSalida(jsonObject.getString("LugarSalida"));
                 objT.setFecha(jsonObject.getString("Fecha"));
                 objT.setHora(jsonObject.getString("Hora"));
                 objT.setPrecio(jsonObject.getString("Precio"));
+                objT.setAgencia(jsonObject.getString("Agencia"));
                 objT.setImgInfo(jsonObject.getString("imgInfo"));
                 objT.setImgPerfil(jsonObject.getString("imgPerfil"));
                 lstTours.add(objT);
             }
-            ToursAdapter adapter=new ToursAdapter(this, lstTours, this);
+            ToursAdapter adapter=new ToursAdapter(MainActivity.this, lstTours, this);
             lstTour.setAdapter(adapter);
         }catch (JSONException e) {
             e.printStackTrace();
@@ -137,6 +131,7 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
 
     public void onItemClick(Tours objRes, int position) {
         Intent intent=new Intent(this, info_tour.class);
+        intent.putExtra("objeto", objRes);
         startActivity(intent);
     }
 

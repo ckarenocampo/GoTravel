@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -13,27 +12,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.gotravel.Clases.Tours;
 import com.example.gotravel.Config.Config;
-import com.example.gotravel.R;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalPayment;
-import com.paypal.android.sdk.payments.PayPalPaymentDetails;
 import com.paypal.android.sdk.payments.PayPalService;
 import com.paypal.android.sdk.payments.PaymentActivity;
 import com.paypal.android.sdk.payments.PaymentConfirmation;
 import com.squareup.picasso.Picasso;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,19 +35,17 @@ import org.json.JSONObject;
 
 import java.math.BigDecimal;
 
-import javax.xml.transform.ErrorListener;
-
 
 public class info_tour extends AppCompatActivity implements Response.Listener<JSONObject>, Response.ErrorListener {
     //Variables
     RequestQueue requestQueue;
     JsonObjectRequest jsonObjectRequest;
-    private TextView txtNombretour,txtNombreAgencia,txtDetalle,txtLugar,txtFecha,txtHora,txtPrecio;
+    private TextView txtNombre,txtAgencia,txtDetalle,txtLugar,txtFecha,txtHora,txtPrecio;
     private ImageView imgInfo, imgPerfil;
     ProgressDialog progeso;
     Button btnPagar;
     Tours objT;
-    Context a ;
+
     String amount= "10";
 
     //URLS de consulta a la bd en webservice
@@ -76,8 +68,8 @@ public class info_tour extends AppCompatActivity implements Response.Listener<JS
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_tour);
-        txtNombretour = findViewById(R.id.txtTourname);
-        txtNombreAgencia = findViewById(R.id.txtNombreAgencia);
+        txtNombre = findViewById(R.id.txtNombre);
+        txtAgencia = findViewById(R.id.txtAgencia);
         txtDetalle = findViewById(R.id.txtDetalle);
         txtLugar = findViewById(R.id.txtLugar);
         txtFecha = findViewById(R.id.txtFecha);
@@ -85,7 +77,7 @@ public class info_tour extends AppCompatActivity implements Response.Listener<JS
         txtPrecio = findViewById(R.id.txtPrecio);
         btnPagar = findViewById(R.id.btnPagar);
         imgInfo = findViewById(R.id.imgInfo);
-        imgPerfil = findViewById(R.id.imgProfile);
+        imgPerfil = findViewById(R.id.imgPerfil);
 
         //empezar el servicio de paypal
         Intent intent = new Intent(this,PayPalService.class);
@@ -98,7 +90,8 @@ public class info_tour extends AppCompatActivity implements Response.Listener<JS
         //Obtenemos el objeto de la consulta a Tours
         if(getIntent().getSerializableExtra("objeto")!=null){
             objT= (Tours) getIntent().getSerializableExtra("objeto");
-            AsignacionValores(objT.getNombretour(),objT.getAgencia(),objT.getDetalle(),objT.getLugarSalida(),objT.getFecha(),objT.getHora(),objT.getPrecio(),objT.getImgInfo(),objT.getImgPerfil());
+            int nu=objT.getIdTour();
+            objT.setIdTour(nu);
             ConsultarItemtour();
         }
 
@@ -115,49 +108,57 @@ public class info_tour extends AppCompatActivity implements Response.Listener<JS
         progeso.setMessage("Cargando...");
         progeso.show();
         String url=URL_CONSULTA_ITEM+"idTour="+objT.getIdTour();
-        url.replace(" ","%20");
+        URL_CONSULTA_ITEM.replace(" ","%20");
         jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null,this,  this);
         requestQueue.add(jsonObjectRequest);
     }
-
+/*
     private void AsignacionValores(String nom, String nomAg, String deta, String Lug, String Fech,String Hora,String Precio, String imgI, String imgP){
-        this.txtNombretour.setText(nom);
-        this.txtNombreAgencia.setText(nomAg);
+        this.txtNombre.setText(nom);
+        this.txtAgencia.setText(nomAg);
         this.txtDetalle.setText(deta);
         this.txtLugar.setText(Lug);
         this.txtFecha.setText(Fech);
         this.txtHora.setText(Hora);
         this.txtPrecio.setText(Precio);
-        Picasso.with(a).load(imgI).into(imgInfo);
-        Picasso.with(a).load(imgP).into(imgPerfil);
+
+        Picasso.with(this).load(imgI).into(imgInfo);
+        Picasso.with(this).load(imgP).into(imgPerfil);
 
         if(getSupportActionBar()!=null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle(nomAg);
         }
     }
-
+*/
     @Override
     public void onResponse(JSONObject response) {
         progeso.dismiss();
-        JSONArray json=response.optJSONArray("Item");
+        JSONArray json=response.optJSONArray("TourConsultaInfo");
         JSONObject jsonObject=null;
         try{
             for(int i=0; i<json.length();i++){
                 jsonObject=json.getJSONObject(i);
             }
             if(jsonObject.getString("respuesta").equals("Ok")){
-                AsignacionValores(jsonObject.getString("Nombre"),jsonObject.getString("Detalle"),
-                        jsonObject.getString("LugarSalida"),jsonObject.getString("Fecha"),
-                        jsonObject.getString("Hora"), jsonObject.getString("Precio"),
-                        jsonObject.getString("idAgencia"),jsonObject.getString("imgInfo"), jsonObject.getString("imgPerfil") );
-                objT.setNombretour(jsonObject.getString("Nombre"));
-                objT.setAgencia(jsonObject.getString("idAgencia"));
+             /*   AsignacionValores(jsonObject.getString("Nombre"),
+                        jsonObject.getString("Detalle"),
+                        jsonObject.getString("LugarSalida"),
+                        jsonObject.getString("Fecha"),
+                        jsonObject.getString("Hora"),
+                        jsonObject.getString("Precio"),
+                        jsonObject.getString("Agencia"),
+                        jsonObject.getString("imgInfo"),
+                        jsonObject.getString("imgPerfil") );*/
+//                objT =new Tours();
+
+                objT.setNombre(jsonObject.getString("Nombre"));
                 objT.setDetalle(jsonObject.getString("Detalle"));
                 objT.setLugarSalida(jsonObject.getString("LugarSalida"));
                 objT.setFecha(jsonObject.getString("Fecha"));
                 objT.setHora(jsonObject.getString("Hora"));
                 objT.setPrecio(jsonObject.getString("Precio"));
+                objT.setAgencia(jsonObject.getString("Agencia"));
                 objT.setImgInfo(jsonObject.getString("imgInfo"));
                 objT.setImgPerfil(jsonObject.getString("imgPerfil"));
 

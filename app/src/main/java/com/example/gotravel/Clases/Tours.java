@@ -4,16 +4,16 @@ import java.io.Serializable;
 
 public class Tours implements Serializable {
     int idTour;
-    String imgInfo;
-    String imgPerfil;
-    String nombretour;
+
+    String nombre;
     String detalle;
     String lugarSalida;
     String fecha;
     String hora;
     String precio;
     String agencia;
-
+    String imgInfo;
+    String imgPerfil;
     public int getIdTour() {
         return idTour;
     }
@@ -38,12 +38,12 @@ public class Tours implements Serializable {
         this.imgPerfil = imgPerfil;
     }
 
-    public String getNombretour() {
-        return nombretour;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setNombretour(String nombretour) {
-        this.nombretour = nombretour;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getDetalle() {

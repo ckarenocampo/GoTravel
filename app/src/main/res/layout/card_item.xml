@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <ImageView
-            android:id="@+id/card_background"
+            android:id="@+id/imgInfo"
             android:scaleType="centerCrop"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -30,12 +30,12 @@
 
 
         <ImageView
-            android:id="@+id/imgProfile"
+            android:id="@+id/imgPerfil"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="bottom"
-            android:layout_marginLeft="-380dp"
-            android:layout_marginBottom="30dp"
+            android:layout_marginLeft="-350dp"
+            android:layout_marginBottom="40dp"
             app:srcCompat="@mipmap/ic_launcher_round" />
     <LinearLayout
         android:layout_width="match_parent"
@@ -43,7 +43,7 @@
         android:orientation="vertical"
         android:layout_marginLeft="15dp">
         <TextView
-            android:id="@+id/txtProfilename"
+            android:id="@+id/txtAgencia"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="170dp"
@@ -52,7 +52,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/txtTourname"
+            android:id="@+id/txtNombre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Tour"
