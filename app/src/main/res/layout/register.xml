@@ -23,9 +23,9 @@
         android:layout_marginTop="40dp"
         android:elevation="10dp"
         android:transitionName="tvLogin"
-        android:text="Sign up"
+        android:text="Registrarse"
         android:textColor="@color/colorWhite"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
     <ImageView
@@ -52,7 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/imgInfo"
-        android:layout_margin="20dp">
+        android:layout_margin="10dp">
         <RelativeLayout
             android:id="@+id/rlayout"
             android:layout_width="match_parent"
@@ -65,22 +65,31 @@
                 app:cardCornerRadius="10dp"
                 app:cardElevation="4dp">
 
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:paddingBottom="50dp">
+                    android:paddingBottom="46dp">
+                    <ImageButton
+                        android:id="@+id/btnInicio"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/bg_ui"
+                        app:srcCompat="@drawable/ic_atras" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
-                        android:text="Email"
+                        android:text="Nombre de usuario"
                         android:textColor="@color/colorPurple"
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
                     <EditText
+                        android:id="@+id/txtUsuario"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
@@ -91,12 +100,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
-                        android:text="Username"
+                        android:text="Correo"
                         android:textColor="@color/colorPurple"
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
                     <EditText
+                        android:id="@+id/txtCorreo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
@@ -107,12 +117,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
-                        android:text="Password"
+                        android:text="Contraseña"
                         android:textColor="@color/colorPurple"
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
                     <EditText
+                        android:id="@+id/txtClave"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
@@ -123,17 +134,20 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
-                        android:text="Retype Password"
+                        android:text="Confirmar contraseña"
                         android:textColor="@color/colorPurple"
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
                     <EditText
+                        android:id="@+id/txtConfirmar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:inputType="textPassword" />
+
+
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -149,13 +163,30 @@
                 android:elevation="10dp">
 
                 <Button
+                    android:id="@+id/btnRegistrar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_ui"
-                    android:text="Sign up"
+                    android:text="Registrar"
                     android:textAllCaps="false"
                     android:textColor="@color/colorWhite" />
+
+                <TextView
+                    android:id="@+id/lblMensaje"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/btnRegistrar"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="15dp"
+                    android:elevation="5dp"
+                    android:text=""
+                    android:textSize="14sp" />
+
             </RelativeLayout>
+
+
+
         </RelativeLayout>
+
     </ScrollView>
 </RelativeLayout>

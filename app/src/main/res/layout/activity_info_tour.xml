@@ -12,6 +12,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_margin="10dp"
+        app:cardCornerRadius="10dp"
         android:layout_height="wrap_content">
 
     <ImageView
@@ -68,13 +69,14 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:paddingBottom="20dp">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="20dp"
+                android:layout_margin="15dp"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="4dp">
 
@@ -83,7 +85,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:paddingBottom="50dp">
+                    android:paddingBottom="40dp">
 
                     <TextView
                         android:id="@+id/txtNombre"
@@ -229,57 +231,165 @@
                             android:textSize="14sp" />
                     </LinearLayout>
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:layout_width="20dp"
+                            android:layout_width="54dp"
                             android:layout_height="20dp"
                             android:layout_margin="10dp"
-                            android:layout_weight="1"
                             android:text="Precio"
                             android:textColor="@color/colorPurple"
                             android:textSize="14sp"
                             android:textStyle="bold" />
 
-                        <TextView
-                            android:id="@+id/txtPrecio"
-                            android:layout_width="190dp"
+                        <LinearLayout
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginRight="10dp"
-                            android:layout_marginBottom="10dp"
-                            android:layout_weight="2"
-                            android:text="35"
-                            android:textColor="#8D8D8D"
-                            android:textSize="14sp" />
+                            android:layout_weight="2">
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="10dp"
+                                android:text="$ "
+                                android:textColor="#8D8D8D"
+                                android:textSize="14sp" />
+                            <TextView
+                                android:id="@+id/txtPrecio"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="10dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="10dp"
+                                android:text="20"
+                                android:textColor="#8D8D8D"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="54dp"
+                                android:layout_height="20dp"
+                                android:layout_margin="10dp"
+                                android:text="Cupos"
+                                android:textColor="@color/colorPurple"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2">
+                            <ImageButton
+                                android:id="@+id/btnDisminuir"
+                                android:layout_marginLeft="10dp"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:background="@drawable/bg_ui"
+                                app:srcCompat="@drawable/ic_remove" />
+                            <TextView
+                                android:id="@+id/txtCupos"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginRight="10dp"
+                                android:layout_marginBottom="10dp"
+                                android:layout_marginLeft="10dp"
+                                android:text="1"
+                                android:textColor="#8D8D8D"
+                                android:textSize="14sp" />
+                            <ImageButton
+                                android:id="@+id/btnIncrementar"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:background="@drawable/bg_ui"
+                                app:srcCompat="@drawable/ic_add" />
+                        </LinearLayout>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:layout_width="20dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="20dp"
                             android:layout_margin="10dp"
                             android:layout_weight="1"
-                            android:text="Cupos"
+                            android:text="Total a pagar:"
                             android:textColor="@color/colorPurple"
                             android:textSize="14sp"
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/txtCupos"
+                            android:id="@+id/txtTotal"
                             android:layout_width="190dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:layout_marginRight="10dp"
                             android:layout_marginBottom="10dp"
                             android:layout_weight="2"
-                            android:text="20"
+                            android:text=""
                             android:textColor="#8D8D8D"
                             android:textSize="14sp" />
                     </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="20dp"
+                                android:layout_margin="10dp"
+                                android:text="Telefono:"
+                                android:textColor="@color/colorPurple"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:layout_marginTop="5dp">
+
+                            <TextView
+                                android:id="@+id/txtTelefono"
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginRight="10dp"
+                                android:layout_marginBottom="10dp"
+                                android:layout_marginLeft="10dp"
+                                android:text="7800-4412"
+                                android:textColor="#8D8D8D"
+                                android:textSize="14sp" />
+                            <ImageButton
+                                android:id="@+id/btnLlamar"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:background="@drawable/bg_ui"
+                                app:srcCompat="@drawable/ic_phone" />
+                        </LinearLayout>
+                    </LinearLayout>
+
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 

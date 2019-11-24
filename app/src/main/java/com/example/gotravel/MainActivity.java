@@ -45,7 +45,7 @@ import static java.security.AccessController.getContext;
 
 public class MainActivity extends AppCompatActivity implements Response.Listener<JSONObject>,ToursAdapter.OnItemClickListener, Response.ErrorListener {
 
-    final static String URL_LISTA_TOURS = "https://gotravel.webcindario.com/modelos/ListaTours.php";
+    final static String URL_LISTA_TOURS = "https://gotravelsapp.000webhostapp.com/gotravel/web/modelos/ListaTours.php";
     //variables a utilizar
     RequestQueue requestQueue;
     JsonObjectRequest jsonObjectRequest;
@@ -108,13 +108,14 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
                 jsonObject=json.getJSONObject(i);
                 objT = new Tours();
                 objT.setIdTour(jsonObject.getInt("idTour"));
-                objT.setNombre(jsonObject.getString("Nombre"));
+                objT.setNombre(jsonObject.getString("NombreTour"));
                 objT.setDetalle(jsonObject.getString("Detalle"));
                 objT.setLugarSalida(jsonObject.getString("LugarSalida"));
                 objT.setFecha(jsonObject.getString("Fecha"));
                 objT.setHora(jsonObject.getString("Hora"));
                 objT.setPrecio(jsonObject.getString("Precio"));
-                objT.setAgencia(jsonObject.getString("Agencia"));
+                objT.setTelefono(jsonObject.getString("Telefono"));
+                objT.setAgencia(jsonObject.getString("Nombre"));
                 objT.setImgInfo(jsonObject.getString("imgInfo"));
                 objT.setImgPerfil(jsonObject.getString("imgPerfil"));
                 lstTours.add(objT);
