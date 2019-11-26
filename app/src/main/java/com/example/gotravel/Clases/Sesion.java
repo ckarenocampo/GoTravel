@@ -5,11 +5,9 @@ import android.graphics.Bitmap;
 public class Sesion  {
     private static Sesion INSTANCE = null ;
 
-    private String idUsuario;
+    private int idUsuario;
     private String Nombre;
     private String Correo;
-    private String Clave;
-    //private Bitmap foto;
     private Sesion() {};
 
     public static Sesion getInstance() {
@@ -20,17 +18,16 @@ public class Sesion  {
     }
 
     public void CerrarSesion(){
-        this.idUsuario="";
+        this.idUsuario=0;
         this.Nombre="";
         this.Correo="";
-        //this.foto=null;
     }
 
-    public String getIdUsuario() {
+    public int getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsuario(String idUsuario) {
+    public void setIdUsuario(int idUsuario) {
         this.idUsuario = idUsuario;
     }
 

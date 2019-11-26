@@ -153,12 +153,11 @@ public class info_tour extends AppCompatActivity implements Response.Listener<JS
         btnPagar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(_SESION.getIdUsuario()== null){
+                if(_SESION.getIdUsuario()!=0){
+                    processPayment();
+                }else{
                     Intent intent=new Intent(info_tour.this, LoginActivity.class);
                     startActivity(intent);
-                }else{
-                    processPayment();
-
                 }
             }
         });
@@ -239,28 +238,29 @@ public class info_tour extends AppCompatActivity implements Response.Listener<JS
     @Override
     protected void onActivityResult(int requestCode, int resultCode,  Intent data) {
 
-            if (resultCode == Activity.RESULT_OK) {
-                PaymentConfirmation confirmation = data
-                        .getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
-                if (confirmation != null) {
-                    try {
-                        //String paymentDetails = confirmation.toJSONObject().toString(4);
-                        //startActivity(new Intent(this, PagosActivity.class)
-                         //       .putExtra("PaymentDetails", paymentDetails)
-                           //     .putExtra("PaymentAmount", amount)
-                       // );
-                        System.out.println(confirmation.toJSONObject().toString(4));
-                        System.out.println(confirmation.getPayment().toJSONObject()
-                                .toString(4));
-                        Toast.makeText(getApplicationContext(), "Orden procesada",
-                                Toast.LENGTH_LONG).show();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            PaymentConfirmation confirmation = data
+                    .getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
+            if (confirmation != null) {
+                try {
+                    //String paymentDetails = confirmation.toJSONObject().toString(4);
+                    //startActivity(new Intent(this, PagosActivity.class)
+                    //       .putExtra("PaymentDetails", paymentDetails)
+                    //     .putExtra("PaymentAmount", amount)
+                    // );
+                    System.out.println(confirmation.toJSONObject().toString(4));
+                    System.out.println(confirmation.getPayment().toJSONObject()
+                            .toString(4));
+                    Toast.makeText(getApplicationContext(), "Orden procesada",
+                            Toast.LENGTH_LONG).show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } else if (resultCode == Activity.RESULT_CANCELED) {
-                Toast.makeText(this, "Cancelado", Toast.LENGTH_SHORT).show();
             }
+        } else if (resultCode == Activity.RESULT_CANCELED) {
+            Toast.makeText(this, "Cancelado", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

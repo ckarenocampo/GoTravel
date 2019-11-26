@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
     }
 
     private void LlamarWebServices() {
+        progreso=new ProgressDialog(this);
         progreso.setMessage(getString(R.string.MensajeCarga));
         progreso.show();
         URL_LISTA_TOURS.replace(" ","%20");

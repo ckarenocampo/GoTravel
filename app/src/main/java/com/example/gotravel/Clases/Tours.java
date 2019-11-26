@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 public class Tours implements Serializable {
     int idTour;
-
     String nombre;
     String detalle;
     String lugarSalida;
