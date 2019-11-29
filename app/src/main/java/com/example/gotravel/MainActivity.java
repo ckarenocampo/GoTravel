@@ -32,6 +32,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.gotravel.Adaptador.ToursAdapter;
 import com.example.gotravel.Clases.Tours;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -43,7 +44,8 @@ import java.util.List;
 
 import static java.security.AccessController.getContext;
 
-public class MainActivity extends AppCompatActivity implements Response.Listener<JSONObject>,ToursAdapter.OnItemClickListener, Response.ErrorListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, Response.Listener<JSONObject>, ToursAdapter.OnItemClickListener, Response.ErrorListener{
+
 
     final static String URL_LISTA_TOURS = "https://gotravelsapp.000webhostapp.com/gotravel/web/modelos/ListaTours.php";
     //variables a utilizar
@@ -51,26 +53,30 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
     JsonObjectRequest jsonObjectRequest;
     ProgressDialog progreso;
     ListView lstTour;
+    boolean isFABOpen=false;
     public static ArrayList<Tours> lstTours = new ArrayList<>();
+    FloatingActionButton btnFloat,fab1,fab2,fab3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // Window v = getWindow();
-        // v.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         lstTour = findViewById(R.id.lstTour);
-
+        btnFloat = findViewById(R.id.btnFloat);
+        fab1 = findViewById(R.id.fab1);
+        fab2 = findViewById(R.id.fab2);
+        fab3 = findViewById(R.id.fab3);
+        btnFloat.setOnClickListener(this);
     }
 
     @Override
     public void onStart() {
         super.onStart();
-            if(MainActivity.this != null) {
-                progreso = new ProgressDialog(this);
-                requestQueue = Volley.newRequestQueue(this);
+        if (MainActivity.this != null) {
+            progreso = new ProgressDialog(this);
+            requestQueue = Volley.newRequestQueue(this);
 //            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-                LlamarWebServices();
+            LlamarWebServices();
           /*      if (lstTours.size() < 1) {
                     LlamarWebServices();
                 } else {
@@ -78,15 +84,15 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
                     lstTour.setAdapter(adapter);
                 }
           */
-            }
+        }
     }
 
     private void LlamarWebServices() {
-        progreso=new ProgressDialog(this);
+        progreso = new ProgressDialog(this);
         progreso.setMessage(getString(R.string.MensajeCarga));
         progreso.show();
-        URL_LISTA_TOURS.replace(" ","%20");
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, URL_LISTA_TOURS, null, this, this);
+        URL_LISTA_TOURS.replace(" ", "%20");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URL_LISTA_TOURS, null, this, this);
         requestQueue.add(jsonObjectRequest);
     }
 
@@ -100,13 +106,13 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
     @Override
     public void onResponse(JSONObject response) {
         progreso.dismiss();
-        JSONArray json=response.optJSONArray("Tours");
-        JSONObject jsonObject=null;
+        JSONArray json = response.optJSONArray("Tours");
+        JSONObject jsonObject = null;
         lstTours.clear();
         Tours objT;
-        try{
-            for(int i=0; i<json.length();i++){
-                jsonObject=json.getJSONObject(i);
+        try {
+            for (int i = 0; i < json.length(); i++) {
+                jsonObject = json.getJSONObject(i);
                 objT = new Tours();
                 objT.setIdTour(jsonObject.getInt("idTour"));
                 objT.setNombre(jsonObject.getString("NombreTour"));
@@ -121,21 +127,44 @@ public class MainActivity extends AppCompatActivity implements Response.Listener
                 objT.setImgPerfil(jsonObject.getString("imgPerfil"));
                 lstTours.add(objT);
             }
-            ToursAdapter adapter=new ToursAdapter(MainActivity.this, lstTours, this);
+            ToursAdapter adapter = new ToursAdapter(MainActivity.this, lstTours, this);
             lstTour.setAdapter(adapter);
-        }catch (JSONException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
 
-
-
-
     public void onItemClick(Tours objRes, int position) {
-        Intent intent=new Intent(this, info_tour.class);
+        Intent intent = new Intent(this, info_tour.class);
         intent.putExtra("objeto", objRes);
         startActivity(intent);
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.btnFloat:
+                if(!isFABOpen){
+                    showFABMenu();
+                }else{
+                    closeFABMenu();
+                }
+            break;
+        }
+    }
+
+    private void showFABMenu(){
+        isFABOpen=true;
+        fab1.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
+        fab2.animate().translationY(-getResources().getDimension(R.dimen.standard_105));
+        fab3.animate().translationY(-getResources().getDimension(R.dimen.standard_155));
+    }
+
+    private void closeFABMenu(){
+        isFABOpen=false;
+        fab1.animate().translationY(0);
+        fab2.animate().translationY(0);
+        fab3.animate().translationY(0);
+    }
 }

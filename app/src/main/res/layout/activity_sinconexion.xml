@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".sinconexion"
+    >
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/imgInfo"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@drawable/header_login"/>
+
+
+    <TextView
+        android:id="@+id/tvLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="5dp"
+        android:layout_margin="20dp"
+        android:text="No hay conexión a internet"
+        android:textColor="@color/colorWhite"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+    <ImageView
+        android:src="@drawable/nowifi"
+        android:layout_marginTop="100dp"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content" />
+
+    <ImageView
+        android:id="@+id/circle"
+        android:layout_width="182dp"
+        android:layout_height="182dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="-107dp"
+        android:layout_marginBottom="-4dp"
+        android:src="@drawable/circle" />
+
+    <ImageView
+        android:id="@+id/circle1"
+        android:layout_width="134dp"
+        android:layout_height="134dp"
+        android:layout_below="@+id/imgInfo"
+        android:layout_marginLeft="-75dp"
+        android:layout_marginTop="-5dp"
+        android:src="@drawable/circletransparant" />
+
+    <ImageView
+        android:id="@+id/circle3"
+        android:layout_width="182dp"
+        android:layout_height="182dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="-80dp"
+        android:layout_marginBottom="-30dp"
+        android:src="@drawable/circle" />
+</RelativeLayout>
