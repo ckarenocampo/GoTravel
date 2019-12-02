@@ -23,7 +23,7 @@ import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.gotravel.Clases.Sesion;
 import com.example.gotravel.Clases.Tours;
-import com.example.gotravel.Config.Config;
+import com.github.clans.fab.FloatingActionButton;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalPayment;
 import com.paypal.android.sdk.payments.PayPalService;
@@ -50,6 +50,9 @@ public class info_tour extends AppCompatActivity implements Response.Listener<JS
     //Variables
     RequestQueue requestQueue;
     JsonObjectRequest jsonObjectRequest;
+    int Flag=0;
+
+
     private TextView txtNombre,txtAgencia,txtDetalle,txtLugar,txtFecha,txtHora,txtPrecio,txtCupos,txtTotal,txtTelefono;
     private ImageView imgInfo, imgPerfil;
     ProgressDialog progeso;
@@ -61,26 +64,20 @@ public class info_tour extends AppCompatActivity implements Response.Listener<JS
 
     //URLS de consulta a la bd en webservice
     private final String URL_CONSULTA_ITEM="https://gotravelsapp.000webhostapp.com/gotravel/web/modelos/TourConsultarInfo.php?";
-
     // Variables de pago
     private static final String PAYPAL_CLIENT_ID = "AQeyW3gXjTVnI2ljt1Q-dh02N2mPE7MkL6D06uYgrGw-6E2jJQZBw-vRoimA9h_I3GLVR-Dhpw0St-CQ";
     private static final String CONFIG_ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_SANDBOX;
     private static final  int REQUEST_CODE_PAYMENT= 1;
+
+    ProgressDialog progreso;
+    private final String URL_ADD_DETALLE="https://gotravelsapp.000webhostapp.com/gotravel/web/modelos/AddDetalle.php?";
+
     PayPalPayment thingToBuy;
     private static PayPalConfiguration config = new PayPalConfiguration()
             .environment(CONFIG_ENVIRONMENT)// sandox para prueba
-            .clientId(PAYPAL_CLIENT_ID)
-            .merchantName("CachadAppTest")
-            .merchantPrivacyPolicyUri(
-                    Uri.parse("https://www.mi_tienda.com/privacy"))
-            .merchantUserAgreementUri(
-                    Uri.parse("https://www.mi_tienda.com/legal"));
+            .clientId(PAYPAL_CLIENT_ID);
 
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -113,6 +110,7 @@ public class info_tour extends AppCompatActivity implements Response.Listener<JS
                 txtCupos.setText(String.valueOf(cupos));
                 total = cupos * precio;
                 txtTotal.setText("$ "+ String.valueOf(total));
+
             }
         });
 
@@ -124,6 +122,7 @@ public class info_tour extends AppCompatActivity implements Response.Listener<JS
                     txtCupos.setText(String.valueOf(cupos));
                     total = cupos * precio;
                     txtTotal.setText("$ "+ String.valueOf(total));
+
                 }
             }
         });
@@ -145,15 +144,15 @@ public class info_tour extends AppCompatActivity implements Response.Listener<JS
             AsignacionValores(objT.getNombre(),objT.getDetalle(),objT.getLugarSalida(),objT.getFecha(),objT.getHora(),objT.getPrecio(),objT.getTelefono(),objT.getAgencia(),objT.getImgInfo());
             precio = Integer.parseInt(objT.getPrecio());
             txtTotal.setText("$ "+ String.valueOf(precio));
+            total = precio;
             tel = objT.getTelefono();
             txtTelefono.setText(String.valueOf(tel));
-
         }
 
         btnPagar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(_SESION.getIdUsuario()!=0){
+                if(_SESION.getNombre()!=null){
                     processPayment();
                 }else{
                     Intent intent=new Intent(info_tour.this, LoginActivity.class);
@@ -172,6 +171,7 @@ public class info_tour extends AppCompatActivity implements Response.Listener<JS
     }
 
     private void ConsultarItemtour() {
+        Flag = 1;
         progeso=new ProgressDialog(this);
         progeso.setMessage("Cargando...");
         progeso.show();
@@ -180,6 +180,17 @@ public class info_tour extends AppCompatActivity implements Response.Listener<JS
         jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null,this,  this);
         requestQueue.add(jsonObjectRequest);
     }
+    public void AgregarDetalle(){
+        Flag = 2;
+        /*progreso=new ProgressDialog(this);
+        progreso.setMessage("Enviando datos de compra");
+        progreso.show();*/
+        String url=URL_ADD_DETALLE+"idTour="+objT.getIdTour()+"&idUsuario="+_SESION.getIdUsuario()+"&Total="+ objT.getTotal();
+        URL_ADD_DETALLE.replace(" ","%20");
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+        requestQueue.add(jsonObjectRequest);
+    }
+
 
     private void AsignacionValores(String nom, String deta, String Lug, String Fech,String Hora,String Precio,String Telefono, String nomAg, String imgI){
         this.txtNombre.setText(nom);
@@ -191,10 +202,12 @@ public class info_tour extends AppCompatActivity implements Response.Listener<JS
         this.txtTelefono.setText(Telefono);
         this.txtAgencia.setText(nomAg);
         Picasso.with(this).load(imgI).into(imgInfo);
+
     }
 
     @Override
     public void onResponse(JSONObject response) {
+        if(Flag==1){
         progeso.dismiss();
         JSONArray json=response.optJSONArray("TourConsultaInfo");
         JSONObject jsonObject=null;
@@ -210,10 +223,11 @@ public class info_tour extends AppCompatActivity implements Response.Listener<JS
                 objT.setFecha(jsonObject.getString("Fecha"));
                 objT.setHora(jsonObject.getString("Hora"));
                 objT.setPrecio(jsonObject.getString("Precio"));
+                objT.setIdAgencia(jsonObject.getInt("idAgencia"));
                 objT.setTelefono(jsonObject.getString("Telefono"));
                 objT.setAgencia(jsonObject.getString("Nombre"));
                 objT.setImgInfo(jsonObject.getString("imgInfo"));
-                objT.setImgPerfil(jsonObject.getString("imgPerfil"));
+                objT.setImgPerfil(jsonObject.getString("Imagen"));
 
             }else{
                 Toast.makeText(getApplicationContext(), "Intente nuevamente", Toast.LENGTH_SHORT).show();
@@ -222,13 +236,19 @@ public class info_tour extends AppCompatActivity implements Response.Listener<JS
         }catch (JSONException e) {
             e.printStackTrace();
         }
+        }
+        if(Flag==2){
+            Toast.makeText(getApplicationContext(), "Detalle agregado con exito",Toast.LENGTH_SHORT).show();
+        }
     }
 
-    private void processPayment() {
+    private void processPayment(){
+
+        objT.setTotal(String.valueOf(total));
 
         amount = String.valueOf(total);
         thingToBuy = new PayPalPayment(new BigDecimal(amount),
-                "USD","Abono realizado",PayPalPayment.PAYMENT_INTENT_SALE);
+                "USD","Abono a realizar",PayPalPayment.PAYMENT_INTENT_SALE);
         Intent intent = new Intent(info_tour.this, PaymentActivity.class);
         intent.putExtra(PaymentActivity.EXTRA_PAYMENT,thingToBuy);
         startActivityForResult(intent,REQUEST_CODE_PAYMENT);
@@ -244,22 +264,21 @@ public class info_tour extends AppCompatActivity implements Response.Listener<JS
                     .getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
             if (confirmation != null) {
                 try {
-                    //String paymentDetails = confirmation.toJSONObject().toString(4);
-                    //startActivity(new Intent(this, PagosActivity.class)
-                    //       .putExtra("PaymentDetails", paymentDetails)
-                    //     .putExtra("PaymentAmount", amount)
-                    // );
+
                     System.out.println(confirmation.toJSONObject().toString(4));
                     System.out.println(confirmation.getPayment().toJSONObject()
                             .toString(4));
-                    Toast.makeText(getApplicationContext(), "Orden procesada",
+
+                    Toast.makeText(getApplicationContext(), "Orden procesada correctamente",
                             Toast.LENGTH_LONG).show();
+                    AgregarDetalle();
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         } else if (resultCode == Activity.RESULT_CANCELED) {
-            Toast.makeText(this, "Cancelado", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "El pago no se realizó", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -268,5 +287,10 @@ public class info_tour extends AppCompatActivity implements Response.Listener<JS
         progeso.dismiss();
         Log.e("Algo fallo", error.getMessage());
         finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

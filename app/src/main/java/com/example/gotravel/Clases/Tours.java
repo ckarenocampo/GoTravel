@@ -10,6 +10,8 @@ public class Tours implements Serializable {
     String fecha;
     String hora;
     String precio;
+    String total;
+    int idAgencia;
     String agencia;
     String telefono;
     String imgInfo;
@@ -81,6 +83,23 @@ public class Tours implements Serializable {
     public String getPrecio() {
         return precio;
     }
+
+    public String getTotal() {
+        return total;
+    }
+
+    public void setTotal(String total) {
+        this.total = total;
+    }
+
+    public int getIdAgencia() {
+        return idAgencia;
+    }
+
+    public void setIdAgencia(int idAgencia) {
+        this.idAgencia = idAgencia;
+    }
+
 
     public String getTelefono() {
         return telefono;

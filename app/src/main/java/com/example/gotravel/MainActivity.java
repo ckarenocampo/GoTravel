@@ -31,8 +31,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.gotravel.Adaptador.ToursAdapter;
+import com.example.gotravel.Clases.Sesion;
 import com.example.gotravel.Clases.Tours;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -46,6 +48,7 @@ import static java.security.AccessController.getContext;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, Response.Listener<JSONObject>, ToursAdapter.OnItemClickListener, Response.ErrorListener{
 
+    Sesion _SESION = Sesion.getInstance();
 
     final static String URL_LISTA_TOURS = "https://gotravelsapp.000webhostapp.com/gotravel/web/modelos/ListaTours.php";
     //variables a utilizar
@@ -55,18 +58,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ListView lstTour;
     boolean isFABOpen=false;
     public static ArrayList<Tours> lstTours = new ArrayList<>();
-    FloatingActionButton btnFloat,fab1,fab2,fab3;
-
+    FloatingActionMenu fab,fabin;
+    FloatingActionButton fabLogin,fabLogout,fabInfo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         lstTour = findViewById(R.id.lstTour);
-        btnFloat = findViewById(R.id.btnFloat);
-        fab1 = findViewById(R.id.fab1);
-        fab2 = findViewById(R.id.fab2);
-        fab3 = findViewById(R.id.fab3);
-        btnFloat.setOnClickListener(this);
+        fab = findViewById(R.id.fab);
+        fabin = findViewById(R.id.fabin);
+        fabLogin = findViewById(R.id.fabLogin);
+        fabLogout = findViewById(R.id.fabLogout);
+        fabInfo = findViewById(R.id.fabInfo);
+        fab.setOnClickListener(this);
+        fabin.setOnClickListener(this);
+
+        fab.setClosedOnTouchOutside(true);
+        fabLogin.setOnClickListener(this);
+        fabLogout.setOnClickListener(this);
+        fabInfo.setOnClickListener(this);
+
+
+
     }
 
     @Override
@@ -77,6 +90,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             requestQueue = Volley.newRequestQueue(this);
 //            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             LlamarWebServices();
+
+            if(_SESION.getNombre()==null){
+                fabin.hideMenu(true);
+                fab.showMenu(true);
+            }else{
+                fab.hideMenu(true);
+                fabin.showMenu(true);
+            }
           /*      if (lstTours.size() < 1) {
                     LlamarWebServices();
                 } else {
@@ -124,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 objT.setTelefono(jsonObject.getString("Telefono"));
                 objT.setAgencia(jsonObject.getString("Nombre"));
                 objT.setImgInfo(jsonObject.getString("imgInfo"));
-                objT.setImgPerfil(jsonObject.getString("imgPerfil"));
+                objT.setImgPerfil(jsonObject.getString("Imagen"));
                 lstTours.add(objT);
             }
             ToursAdapter adapter = new ToursAdapter(MainActivity.this, lstTours, this);
@@ -144,27 +165,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.btnFloat:
-                if(!isFABOpen){
-                    showFABMenu();
-                }else{
-                    closeFABMenu();
-                }
+            case R.id.fab:
+
             break;
+            case R.id.fabLogout:
+                CerrarSesion();
+                break;
+            case R.id.fabLogin:
+                startActivity(new Intent(MainActivity.this,LoginActivity.class));
+                break;
+            case R.id.fabInfo:
+                startActivity(new Intent(MainActivity.this,detalles_tours.class));
+
+                break;
         }
     }
 
-    private void showFABMenu(){
-        isFABOpen=true;
-        fab1.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
-        fab2.animate().translationY(-getResources().getDimension(R.dimen.standard_105));
-        fab3.animate().translationY(-getResources().getDimension(R.dimen.standard_155));
+    private void CerrarSesion(){
+        Intent inten= new Intent(this,MainActivity.class);
+        inten.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        _SESION.CerrarSesion();
+        startActivity(inten);
+
     }
 
-    private void closeFABMenu(){
-        isFABOpen=false;
-        fab1.animate().translationY(0);
-        fab2.animate().translationY(0);
-        fab3.animate().translationY(0);
-    }
+
 }

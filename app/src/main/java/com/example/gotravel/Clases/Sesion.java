@@ -19,8 +19,8 @@ public class Sesion  {
 
     public void CerrarSesion(){
         this.idUsuario=0;
-        this.Nombre="";
-        this.Correo="";
+        this.Nombre=null;
+        this.Correo=null;
     }
 
     public int getIdUsuario() {

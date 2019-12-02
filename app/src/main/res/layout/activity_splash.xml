@@ -8,18 +8,18 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardImg"
-        android:orientation="horizontal"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
-        android:layout_margin="10dp"
-        app:cardCornerRadius="75dp"
-        android:layout_gravity="center">
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_gravity="center"
+        app:cardCornerRadius="45dp"
+        android:src="@mipmap/ic_logo">
 
     <ImageView
        android:id="@+id/imgLogo"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
         android:src="@mipmap/ic_logo"
+        android:layout_gravity="center"
         />
     </androidx.cardview.widget.CardView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

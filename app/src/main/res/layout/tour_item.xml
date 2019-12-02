@@ -1,81 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    android:layout_height="match_parent">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/lstContainer"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_margin="10dp"
-        app:cardCornerRadius="10dp"
-        android:layout_height="wrap_content">
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:id="@+id/imgInfo"
-        android:maxHeight="100dp"
-        android:adjustViewBounds="true"
-        android:scaleType="centerCrop"
-        />
-    </androidx.cardview.widget.CardView>
-
-    <ImageView
-        android:id="@+id/circle1"
-        android:layout_width="134dp"
-        android:layout_height="134dp"
-        android:layout_below="@+id/lstContainer"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="-80dp"
-        android:src="@drawable/circletransparant" />
-    <ImageView
-        android:id="@+id/circle2"
-        android:layout_width="134dp"
-        android:layout_height="134dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="-100dp"
-        android:layout_marginBottom="50dp"
-        android:src="@drawable/circletransparant" />
-    <ImageView
-        android:id="@+id/circle3"
-        android:layout_width="182dp"
-        android:layout_height="182dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginRight="-80dp"
-        android:layout_marginBottom="-30dp"
-        android:src="@drawable/circle" />
-    <ImageView
-        android:id="@+id/circle4"
-        android:layout_width="134dp"
-        android:layout_height="134dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginRight="-50dp"
-        android:layout_marginBottom="-50dp"
-        android:layout_toLeftOf="@+id/circle3"
-        android:src="@drawable/circletransparant" />
-
-    ////////////////////////////////////////
-    <ScrollView
-        android:id="@+id/sv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/lstContainer">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="20dp">
+            android:paddingBottom="10dp">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="15dp"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="4dp">
@@ -84,8 +23,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingBottom="40dp">
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/txtNombre"
@@ -95,7 +33,7 @@
                         android:layout_weight="1"
                         android:text="Nombre del tour"
                         android:textColor="@color/colorPurple"
-                        android:textSize="16sp"
+                        android:textSize="18sp"
                         android:textStyle="bold" />
 
 
@@ -106,7 +44,7 @@
                         <TextView
                             android:id="@+id/txtAgencia"
                             android:layout_width="match_parent"
-                            android:layout_height="20dp"
+                            android:layout_height="wrap_content"
                             android:layout_margin="10dp"
                             android:layout_weight="1"
                             android:text="Agencia de viajes"
@@ -118,42 +56,13 @@
 
                     </LinearLayout>
 
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
                         <TextView
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-                            android:layout_weight="1"
-                            android:text="Detalle:"
-                            android:textColor="@color/colorPurple"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/txtDetalle"
-                            android:layout_width="190dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginRight="10dp"
-
-                            android:layout_marginBottom="10dp"
-                            android:layout_weight="2"
-                            android:text="Este es un texto de ejemplo de la cantidad de texto que puede mostrar el detalle del tour "
-                            android:textColor="#8D8D8D"
-                            android:textSize="14sp" />
-
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:layout_width="20dp"
                             android:layout_height="wrap_content"
                             android:layout_margin="10dp"
                             android:layout_weight="1"
@@ -181,11 +90,11 @@
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_margin="10dp"
                             android:layout_weight="1"
-                            android:text="Fecha"
+                            android:text="Fecha:"
                             android:textColor="@color/colorPurple"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -209,8 +118,8 @@
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_margin="10dp"
                             android:layout_weight="1"
                             android:text="Hora:"
@@ -236,7 +145,7 @@
 
                         <TextView
                             android:layout_width="wrap_content"
-                            android:layout_height="20dp"
+                            android:layout_height="wrap_content"
                             android:layout_margin="10dp"
                             android:text="Precio:"
                             android:textColor="@color/colorPurple"
@@ -264,78 +173,35 @@
                                 android:layout_marginRight="10dp"
                                 android:layout_marginTop="10dp"
                                 android:layout_marginBottom="10dp"
-                                android:text="20"
+                                android:text=""
                                 android:textColor="#8D8D8D"
                                 android:textSize="14sp" />
                         </LinearLayout>
 
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2">
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="5dp"
-                                android:text="Cupos:"
-                                android:textColor="@color/colorPurple"
-                                android:textSize="14sp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="2">
-                            <ImageButton
-                                android:id="@+id/btnDisminuir"
-                                android:layout_marginLeft="10dp"
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:background="@drawable/bg_ui"
-                                app:srcCompat="@drawable/ic_remove" />
-                            <TextView
-                                android:id="@+id/txtCupos"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:layout_marginRight="10dp"
-                                android:layout_marginBottom="10dp"
-                                android:layout_marginLeft="10dp"
-                                android:text="1"
-                                android:textColor="#8D8D8D"
-                                android:textSize="14sp" />
-                            <ImageButton
-                                android:id="@+id/btnIncrementar"
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:background="@drawable/bg_ui"
-                                app:srcCompat="@drawable/ic_add" />
-                        </LinearLayout>
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
 
                         <TextView
                             android:layout_width="wrap_content"
-                            android:layout_height="20dp"
+                            android:layout_height="wrap_content"
                             android:layout_margin="10dp"
                             android:layout_weight="1"
                             android:text="Total:"
                             android:textColor="@color/colorPurple"
                             android:textSize="14sp"
                             android:textStyle="bold" />
+                        <TextView
 
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:text="$ "
+                            android:textColor="#8D8D8D"
+                            android:textSize="14sp" />
                         <TextView
                             android:id="@+id/txtTotal"
-                            android:layout_width="190dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:layout_marginRight="10dp"
@@ -381,39 +247,14 @@
                                 android:text="7800-4412"
                                 android:textColor="#8D8D8D"
                                 android:textSize="14sp" />
-                            <ImageButton
-                                android:id="@+id/btnLlamar"
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
-                                android:background="@drawable/bg_ui"
-                                app:srcCompat="@drawable/ic_phone" />
                         </LinearLayout>
                     </LinearLayout>
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/cv"
-                android:layout_alignLeft="@+id/cv"
-                android:layout_alignRight="@+id/cv"
-                android:layout_marginLeft="35dp"
-                android:layout_marginTop="-50dp"
-                android:layout_marginRight="35dp"
-                android:elevation="10dp">
 
-                <Button
-                    android:id="@+id/btnPagar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_ui"
-                    android:text="Pagar cupo "
-                    android:textAllCaps="false"
-                    android:textColor="@color/colorWhite" />
             </RelativeLayout>
 
         </RelativeLayout>
-    </ScrollView>
-</RelativeLayout>
+

@@ -13,7 +13,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".AgregarDetalle"></activity>
+        <activity android:name=".detalles_tours" />
+        <activity android:name=".MainActivity" />
         <activity android:name=".sinconexion" />
         <activity android:name=".info_tour" />
         <activity android:name=".LoginActivity" />
